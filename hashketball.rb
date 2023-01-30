@@ -126,4 +126,70 @@ def game_hash
   }
 end
 
-# Write code here
+
+#HELPER METHODS
+
+# returns array of all players
+def all_players
+  game_hash[:home][:players] + game_hash[:away][:players]
+end
+
+
+#returns array of only one player
+def get_player_by_name(player_name)
+  all_players.find do |player|
+    player[:player_name] == player_name
+  end
+end
+
+
+#returns only one team
+def  get_team_by_name(team_name)
+  team_info = game_hash.find do |key, value|
+    value[:team_name] == team_name
+  end
+   team_info[1]
+end
+
+#END OF HELPER METHODS
+
+def num_points_scored(player_name)
+  get_player_by_name(player_name)[:points]
+end
+
+def shoe_size(player_name)
+  get_player_by_name(player_name)[:shoe]
+end
+
+def team_colors(team_name)
+  get_team_by_name(team_name)[:colors]
+end
+
+
+def team_names
+  game_hash.collect do |team_location, team_info|
+    team_info[:team_name]
+  end
+end
+
+def player_numbers(team_name)
+ proper_team = game_hash.find do |key, value|
+  value[:team_name] == team_name
+ end
+ proper_team[1][:players].map do |player|
+  player[:number]
+ end
+end
+
+def player_stats(player_name)
+  get_player_by_name(player_name)
+end
+
+def big_shoe_rebounds
+  person_w_biggest_shoe= all_players.max do |a,b|
+  a[:shoe] <=> b[:shoe]
+  end
+  person_w_biggest_shoe[:rebounds]
+end
+
+big_shoe_rebounds
